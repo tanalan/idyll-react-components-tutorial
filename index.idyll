@@ -3,7 +3,7 @@
 [Header
   fullWidth:true
   title:"Idyll Custom Components"
-  subtitle:"Creating your own custom components with in Idyll"
+  subtitle:"Creating your own custom components in Idyll"
   author:"Alan Tan"
   authorLink:"https://github.com/tanalan"
   date:`(new Date()).toDateString()`
