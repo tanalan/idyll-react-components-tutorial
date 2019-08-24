@@ -3,9 +3,9 @@
 [Header
   fullWidth:true
   title:"Idyll Custom Components"
-  subtitle:"Welcome to Idyll. Open index.idyll to start writing"
-  author:"Your Name Here"
-  authorLink:"https://idyll-lang.org"
+  subtitle:"Creating your own custom components with in Idyll"
+  author:"Alan Tan"
+  authorLink:"https://github.com/tanalan"
   date:`(new Date()).toDateString()`
   background:"#222222"
   color:"#ffffff"
