@@ -65,7 +65,7 @@ after clicking on a div.
 
 As shown, the use of `vars` as `props` in custom components is core to Idyll's interactivity!
 
-## Markup
+## A custom budget component
 
 Idyll is based on Markdown.
 
