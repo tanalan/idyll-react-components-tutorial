@@ -2,7 +2,7 @@
 
 [Header
   fullWidth:true
-  title:"Idyll Custom Components"
+  title:"WIP: Idyll Custom Components"
   subtitle:"Creating your own custom components in Idyll"
   author:"Alan Tan"
   authorLink:"https://github.com/tanalan"
@@ -56,14 +56,14 @@ to `TwoColors`. Finally, the current color is displayed using the default [Displ
 ```
 [var name:"theCurrentColor" value:undefined /]
 [TwoColors currentColor:theCurrentColor /]
-
+// Scroll to see rest of code 
 The color selected is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
 ```
 
 Notice in the [source code](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js#L11) of `TwoColors` how it `updatesProps` to the respective color 
 after clicking on a div.
 
-As shown, the use of `vars` as `props` in custom components is core to Idyll's interactivity!
+As shown, the use of `var`s as `props` in custom components is core to Idyll's interactivity!
 
 ## A custom budget component
 
