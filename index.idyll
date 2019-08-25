@@ -9,26 +9,61 @@
   date:`(new Date()).toDateString()`
   background:"#222222"
   color:"#ffffff"
-   /]
+/]
 
 
 ## Introduction
 
-This is an Idyll post. It is generated via
-the file `index.idyll`. To compile this post using
-idyll, run the command `idyll` inside of this directory.
+Idyll is already rich with many [built-it](https://idyll-lang.org/docs/components) components.
+This article serves as a tutorial for writing your own custom components (in React)
+in Idyll, and is an extension to Idyll's [current docs](https://idyll-lang.org/docs/components/custom) with custom components.
+
+**TODO** This article assumes basic knowledge from Idyll's docs. (Wording?).
+
+Since Idyll components are React components under the hood, it may be good to be familiar with the basics of React.
+Their [docs](https://reactjs.org/docs/getting-started.html) are well documented, and serve as a great starting point for learning React.
 
 
-Idyll posts are designed to support interaction and
-data-driven graphics.
+> Idyll posts are designed to support interaction and data-driven graphics.
 
-[var name:"state" value:0 /]
-[CustomD3Component className:"d3-component" state:state /]
-[button onClick:`state++`]
-  Click Me.
-[/button]
+I will focus on creating a (basic?) custom component emphasizes Idyll's interaction functionality, and ....??? TODO
 
-Configuration can be done via the `idyll` field in `package.json`.
+## Core custom component ideas
+
+Very important to an Idyll document's interactivity is its interaction with its **variables**. This is important for
+writing custom components that have interactivity with users, as well as other components.
+
+In particular, for all custom components, Idyll injects an `updateProps`
+method into the `props` object of a custom component. We pass our variables
+into a custom component's `props`, and the component can `updateProps`, which
+facilitate interaction, because these same variables can be used for the `props` of other components!
+[br/]
+This is very powerful.
+
+I demonstrate this with a small basic custom component, `TwoColors`.
+Try clicking on a colored section below, and notice how the color selected text changes.
+
+[var name:"theCurrentColor" value:undefined /]
+[TwoColors currentColor:theCurrentColor /]
+
+The color selected is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
+
+This `TwoColors` custom component is defined in my `components/` folder, with source code 
+[here](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js).
+Once created, in my `index.idyll` document, I define a `var` called `theCurrentColor`, and pass this variable as a `prop`
+to `TwoColors`. Finally, the current color is displayed using the default [Display](https://idyll-lang.org/docs/components/default/display) component.
+
+```
+[var name:"theCurrentColor" value:undefined /]
+[TwoColors currentColor:theCurrentColor /]
+
+The color selected is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
+```
+
+Notice in the [source code](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js#L11) of `TwoColors` how it `updatesProps` to the respective color 
+after clicking on a div.
+
+As shown, the use of `vars` as `props` in custom components is core to Idyll's interactivity!
 
 ## Markup
 
