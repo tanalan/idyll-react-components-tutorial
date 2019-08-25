@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="static/idyll_styles.css" />
   </head>
   <body>
-    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">Idyll Custom Components</h1><h2 class="dek">Creating your own custom components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Sun Aug 25 2019</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components.
+    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">WIP: Idyll Custom Components</h1><h2 class="dek">Creating your own custom components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Sun Aug 25 2019</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components.
 This article serves as a tutorial for writing your own custom components (in React)
 in Idyll, and is an extension to Idyll’s <a href="https://idyll-lang.org/docs/components/custom">current docs</a> with custom components.</p><p><strong>TODO</strong> This article assumes basic knowledge from Idyll’s docs. (Wording?).</p><p>Since Idyll components are React components under the hood, it may be good to be familiar with the basics of React.
 Their <a href="https://reactjs.org/docs/getting-started.html">docs</a> are well documented, and serve as a great starting point for learning React.</p><blockquote>Idyll posts are designed to support interaction and data-driven graphics.</blockquote><p>I will focus on creating a (basic?) custom component emphasizes Idyll’s interaction functionality, and ....??? TODO</p><h2 id="core-custom-component-ideas">Core custom component ideas</h2><p>Very important to an Idyll document’s interactivity is its interaction with its <strong>variables</strong>. This is important for
@@ -30,9 +30,9 @@ Try clicking on a colored section below, and notice how the color selected text 
 Once created, in my <code>index.idyll</code> document, I define a <code>var</code> called <code>theCurrentColor</code>, and pass this variable as a <code>prop</code>
 to <code>TwoColors</code>. Finally, the current color is displayed using the default <a href="https://idyll-lang.org/docs/components/default/display">Display</a> component.</p><pre><code>[var name:&quot;theCurrentColor&quot; value:undefined /]
 [TwoColors currentColor:theCurrentColor /]
-
+// Scroll to see rest of code 
 The color selected is [Display value:`theCurrentColor ? theCurrentColor : &quot;not yet chosen&quot;` /]</code></pre><p>Notice in the <a href="https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js#L11">source code</a> of <code>TwoColors</code> how it <code>updatesProps</code> to the respective color 
-after clicking on a div.</p><p>As shown, the use of <code>vars</code> as <code>props</code> in custom components is core to Idyll’s interactivity!
+after clicking on a div.</p><p>As shown, the use of <code>var</code>s as <code>props</code> in custom components is core to Idyll’s interactivity!
 
 </p><h2 id="a-custom-budget-component">A custom budget component</h2><p>Idyll is based on Markdown.</p><p>You can use familiar syntax
 to create <strong>bold</strong> (<code>**bold**</code> ) and <em>italic</em> (`<code>*italic*</code> ) styles,</p><ul><li>lists</li><li>of</li><li>items,</li></ul><pre><code>* lists
