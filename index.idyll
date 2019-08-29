@@ -30,13 +30,18 @@ I will focus on creating a (basic?) custom component emphasizes Idyll's interact
 
 ## Core custom component ideas
 
-Very important to an Idyll document's interactivity is its interaction with its **variables**. This is important for
+Very important to an Idyll document's interactivity is its interaction with **variables**. This is important for
 writing custom components that have interactivity with users, as well as other components.
 
+## Writing custom components
+
+In Idyll, a variable can be *binded* to a component's property (`prop`). If this variable value is updated, all
+components with a bind to this variable also updates!
+[br /]
 In particular, for all custom components, Idyll injects an `updateProps`
 method into the `props` object of a custom component. We pass our variables
 into a custom component's `props`, and the component can `updateProps`, which
-facilitate interaction, because these same variables can be used for the `props` of other components!
+facilitate interaction, because these same variables' updated values will affect its other components!
 [br/]
 This is very powerful.
 
@@ -46,12 +51,9 @@ Try clicking on a colored section below, and notice how the color selected text 
 [var name:"theCurrentColor" value:undefined /]
 [TwoColors currentColor:theCurrentColor /]
 
-The color selected is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
+The color clicked is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
 
-This `TwoColors` custom component is defined in my `components/` folder, with source code 
-[here](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js).
-Once created, in my `index.idyll` document, I define a `var` called `theCurrentColor`, and pass this variable as a `prop`
-to `TwoColors`. Finally, the current color is displayed using the default [Display](https://idyll-lang.org/docs/components/default/display) component.
+The code for the above interaction is as follows:
 
 ```
 [var name:"theCurrentColor" value:undefined /]
@@ -60,118 +62,20 @@ to `TwoColors`. Finally, the current color is displayed using the default [Displ
 The color selected is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
 ```
 
-Notice in the [source code](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js#L11) of `TwoColors` how it `updatesProps` to the respective color 
-after clicking on a div.
+I define a `var` called `theCurrentColor`, and bind this to both `TwoColor`'s `currentColor` prop, and `Display`'s
+`value` prop.
 
-As shown, the use of `var`s as `props` in custom components is core to Idyll's interactivity!
+This `TwoColors` custom component is defined in my `components/` folder, with source code 
+[here](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js).
+
+Notice in the [source code](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js#L11) of `TwoColors` how it `updatesProps` of `currentColor`
+to the respective color after clicking on a div. The `currentColor` prop is binded to our `theCurrentColor` var, and as such, `Display` is updated when we update the var.
+
+As shown, the binding of `var`s to a custom component's `props` is core to Idyll's interactivity!
 
 ## A custom budget component
 
-Idyll is based on Markdown.
+TODO showing a more complex and useful example that shows data.
 
-You can use familiar syntax
-to create **bold** (`**bold**` ) and *italic* (``*italic*` ) styles,
-
-* lists
-* of
-* items,
-
-```
-* lists
-* of
-* items,
-```
-
-1. and numbered
-2. lists
-3. of items,
-
-
-```
-1. and numbered
-2. lists
-3. of items,
-```
-
-in addition to [hyperlinks](https://idyll-lang.org) and images:
-
-![quill](static/images/quill.svg)
-
-```
-![quill](static/images/quill.svg)
-```
-
-## Components
-
-Components can be embedded using a bracket syntax:
-
-```
-[Range /]
-```
-
-and can contain nested content:
-
-```
-[Equation]e = mc^{2}[/Equation]
-```
-
-Components accept properties:
-
-```
-[Range value:x min:0 max:1 /]
-```
-
-that can be bound to variables to achieve interactivity (more in next section).
-
-
-A variety of components are included by default. See [all the available components](https://idyll-lang.org/docs/components/). You can also use any html tag, for example: `[div] A div! [/div]`.
-
-To create your own, add it to the `components/` folder. There are examples of how to use Idyll with React and D3 based components already included.
-
-
-
-## Interactivity
-
-Here is how you can instantiate a variable and bind it to a component:
-
-[var name:"exampleVar" value:5 /]
-
-[Range min:0 max:10 value:exampleVar /]
-[Display value:exampleVar /]
-
-```
-[var name:"exampleVar" value:5 /]
-
-[Range min:0 max:10 value:exampleVar /]
-[Display value:exampleVar /]
-```
-
-## Learn More
-
-To learn more see the documentation at https://idyll-lang.org/docs/,
-join our [chatroom](https://gitter.im/idyll-lang/Lobby), or see the project on [GitHub](https://github.com/idyll-lang/idyll).
-
-[hr /]
-
-# Technical Details
-
-## Installation
-
-- Make sure you have `idyll` installed (`npm i -g idyll`).
-- Clone this repo and run `npm install`.
-
-## Developing a post locally
-
-Run `idyll`.
-
-## Building a post for production
-
-Run `idyll build`. The output will appear in the top-level `build` folder. To change the output location, change the `output` option in `package.json`.
-
-## Deploying
-
-Make sure your post has been built, then deploy the docs folder via any static hosting service.
-
-## Dependencies
-
-You can install custom dependencies by running `npm install <package-name> --save`. Note that any collaborators will also need download the package locally by running `npm install` after pulling the changes.
+A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
+This way, they can get a visualization of how much of their budget is going into what category.

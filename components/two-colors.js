@@ -20,7 +20,7 @@ class TwoColors extends React.PureComponent {
           style={{backgroundColor: 'green'}}
           onClick={() => this.changePropsColor('green')}
         >
-          Green
+         Green 
         </div>
         <div 
           style={{backgroundColor: 'orange'}}
