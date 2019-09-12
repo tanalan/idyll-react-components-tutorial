@@ -11,7 +11,6 @@
   color:"#ffffff"
 /]
 
-
 ## Introduction
 
 Idyll is already rich with many [built-it](https://idyll-lang.org/docs/components) components.
@@ -45,13 +44,13 @@ facilitate interaction, because these same variables' updated values will affect
 [br/]
 This is very powerful.
 
-I demonstrate this with a small basic custom component, `TwoColors`.
+I demonstrate this by interacting with a small basic custom component, `TwoColors`.
 Try clicking on a colored section below, and notice how the color selected text changes.
 
 [var name:"theCurrentColor" value:undefined /]
 [TwoColors currentColor:theCurrentColor /]
 
-The color clicked is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
+The color clicked is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` style:`{backgroundColor: green}`/]
 
 The code for the above interaction is as follows:
 
@@ -65,11 +64,50 @@ The color selected is [Display value:`theCurrentColor ? theCurrentColor : "not y
 I define a `var` called `theCurrentColor`, and bind this to both `TwoColor`'s `currentColor` prop, and `Display`'s
 `value` prop.
 
-This `TwoColors` custom component is defined in my `components/` folder, with source code 
-[here](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js).
+This `TwoColors` custom component is defined in my `components/` folder:
 
-Notice in the [source code](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js#L11) of `TwoColors` how it `updatesProps` of `currentColor`
-to the respective color after clicking on a div. The `currentColor` prop is binded to our `theCurrentColor` var, and as such, `Display` is updated when we update the var.
+```
+import React from 'react';
+
+class TwoColors extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.changePropsColor = this.changePropsColor.bind(this);
+  }
+
+  changePropsColor(color) {
+    this.props.updateProps({
+      currentColor: color
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <div
+          style={{backgroundColor: 'green'}}
+          onClick={() => this.changePropsColor('green')}
+        >
+         Green 
+        </div>
+        <div 
+          style={{backgroundColor: 'orange'}}
+          onClick={() => this.changePropsColor('orange')}
+        >
+          Orange
+        </div>
+      </div>
+    );
+  }
+}
+
+export default TwoColors;
+```
+
+Notice in `TwoColors` how it `updatesProps` of `currentColor`
+to the respective color after clicking on a div. The `currentColor`
+prop is binded to our `theCurrentColor` var, and as such, `Display` is updated when we update the var.
 
 As shown, the binding of `var`s to a custom component's `props` is core to Idyll's interactivity!
 
@@ -79,3 +117,5 @@ TODO showing a more complex and useful example that shows data.
 
 A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
 This way, they can get a visualization of how much of their budget is going into what category.
+
+[Budgeter /]

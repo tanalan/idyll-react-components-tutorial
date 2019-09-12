@@ -17,13 +17,23 @@ class TwoColors extends React.PureComponent {
     return (
       <div>
         <div
-          style={{backgroundColor: 'green'}}
+          style={{
+            backgroundColor: 'green',
+            width: '100px',
+            height: '100px',
+            textAlign: 'center'
+          }}
           onClick={() => this.changePropsColor('green')}
         >
          Green 
         </div>
         <div 
-          style={{backgroundColor: 'orange'}}
+          style={{
+            backgroundColor: 'orange',
+            width: '100px',
+            height: '100px',
+            textAlign: 'center'
+          }}
           onClick={() => this.changePropsColor('orange')}
         >
           Orange
