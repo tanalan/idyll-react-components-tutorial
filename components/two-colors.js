@@ -14,9 +14,11 @@ class TwoColors extends React.PureComponent {
   }
 
   render() {
+    // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
     return (
       <div>
         <div
+          className="square-green"
           style={{
             backgroundColor: 'green',
             width: '100px',
@@ -27,7 +29,8 @@ class TwoColors extends React.PureComponent {
         >
          Green 
         </div>
-        <div 
+        <div
+          className="square-orange"
           style={{
             backgroundColor: 'orange',
             width: '100px',

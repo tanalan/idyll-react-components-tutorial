@@ -48,23 +48,14 @@ I demonstrate this by interacting with a small basic custom component, `TwoColor
 Try clicking on a colored section below, and notice how the color selected text changes.
 
 [var name:"theCurrentColor" value:undefined /]
-[TwoColors currentColor:theCurrentColor /]
+[TwoColors selectedColor:theCurrentColor /]
 
 The color clicked is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
 
-The code for the above interaction is as follows:
+Let's go over how I made this!
 
-```
-[var name:"theCurrentColor" value:undefined /]
-[TwoColors currentColor:theCurrentColor /]
-// Scroll to see rest of code 
-The color selected is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
-```
-
-I define a `var` called `theCurrentColor`, and bind this to both `TwoColor`'s `currentColor` prop, and `Display`'s
-`value` prop.
-
-This `TwoColors` custom component is defined in my `components/` folder:
+I defined my own custom component, `TwoColors`, in a file called `two-colors.js` in my components/ folder, so Idyll knows about it.
+The contents start out in a basic React template:
 
 ```
 import React from 'react';
@@ -72,44 +63,146 @@ import React from 'react';
 class TwoColors extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.changePropsColor = this.changePropsColor.bind(this);
-  }
-
-  changePropsColor(color) {
-    this.props.updateProps({
-      currentColor: color
-    });
   }
 
   render() {
-    return (
-      <div>
-        <div
-          style={{backgroundColor: 'green'}}
-          onClick={() => this.changePropsColor('green')}
-        >
-         Green 
-        </div>
-        <div 
-          style={{backgroundColor: 'orange'}}
-          onClick={() => this.changePropsColor('orange')}
-        >
-          Orange
-        </div>
-      </div>
-    );
-  }
+    // ... rendered output here
 }
 
 export default TwoColors;
 ```
 
-Notice in `TwoColors` how it `updatesProps` of `currentColor`
-to the respective color after clicking on a div. The `currentColor`
-prop is binded to our `theCurrentColor` var, and as such, `Display` is updated when we update the var.
+Note: The `export default TwoColors;` statement  allows Idyll to find the component a `TwoColors`.
+See [export](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export) docs for more info.
 
-As shown, the binding of `var`s to a custom component's `props` is core to Idyll's interactivity!
+Now, let's render two squares of 100x100 pixels. We will render them as `div`s, and wrap them inside a container `div`.
+So now, `render()` looks like:
+
+```
+render() {
+  // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
+  return (
+    <div>
+      <div
+        className="square-green"
+        style={{
+          backgroundColor: 'green',
+          width: '100px',
+          height: '100px',
+          textAlign: 'center'
+        }}
+      >
+        Green 
+      </div>
+      <div
+        className="square-orange"
+        style={{
+          backgroundColor: 'orange',
+          width: '100px',
+          height: '100px',
+          textAlign: 'center'
+        }}
+      >
+        Orange
+      </div>
+    </div>
+  );
+}
+```
+
+I injected CSS styling into the square `div`'s `style` property.
+
+Now, inside our `index.idyll` file, we can create a `TwoColors` component via:
+
+```
+[TwoColors /]
+```
+and we get the output:
+
+[TwoColors /]
+
+Great! Now, let's add some interactivity!
+Inside `index.idyll`, we define a variable that will track the last clicked color.
+Because we initially haven't clicked any color, we'll initialize the variable's value to `undefined`.
+
+```
+[var name:"lastClickedColor" value:undefined /]
+```
+
+Then, we'll *bind* this variable to a property of `TwoColors`! Let's call this property `selectedColor`, just to
+differentiate between our variable and the prop.
+
+```
+[var name:"lastClickedColor" value:undefined /]
+[TwoColors selectedColor:lastClickedColor /]
+```
+
+Inside `TwoColors`, we'll add a click event to each square, and upon clicking, the square will update the `selectedColor` prop,
+which will update our `lastClickedColor` variable. Let's add `onClick` events to both squares. Our updated `render()` looks like:
+
+```
+render() {
+  // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
+  return (
+    <div>
+      <div
+        className="square-green"
+        style={{
+          backgroundColor: 'green',
+          width: '100px',
+          height: '100px',
+          textAlign: 'center'
+        }}
+        onClick={() => this.changePropsColor('green')}
+      >
+        Green 
+      </div>
+      <div
+        className="square-orange"
+        style={{
+          backgroundColor: 'orange',
+          width: '100px',
+          height: '100px',
+          textAlign: 'center'
+        }}
+        onClick={() => this.changePropsColor('orange')}
+      >
+        Orange
+      </div>
+    </div>
+  );
+}
+```
+
+Let's also define the `changePropsColor` function! What it will do is that it'll accept a `color` parameter,
+and then `updateProps()` to the clicked color! (Notice how we passed `green` and `orange`, respectively).
+
+```
+constructor(props) {
+  super(props);
+  
+  this.changePropsColor = this.changePropsColor.bind(this);
+}
+
+changePropsColor(color) {
+  this.props.updateProps({
+    currentColor: color
+  });
+}
+```
+
+Note: I added that `bind` call in the constructor because of how class methods work in Javascript. Read more [here](https://reactjs.org/docs/handling-events.html)
+
+Now, when we click on a square, the `changePropsColor` function is called, and the `selectedColor` prop updates to the color clicked,
+and then the `lastClickedColor` variable becomes updated to the color selected ("green" or "orange").
+
+Finally, let's now display our `lastClickedVariable` to see it update live!
+
+We'll use Idyll's default Display component to display the variable! 
+
+```
+Why does this not compile???
+```
 
 ## A custom budget component
 
