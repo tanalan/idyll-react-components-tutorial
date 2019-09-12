@@ -50,7 +50,7 @@ Try clicking on a colored section below, and notice how the color selected text 
 [var name:"theCurrentColor" value:undefined /]
 [TwoColors currentColor:theCurrentColor /]
 
-The color clicked is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` style:`{backgroundColor: green}`/]
+The color clicked is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
 
 The code for the above interaction is as follows:
 
