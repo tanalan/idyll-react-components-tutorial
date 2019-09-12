@@ -29,49 +29,103 @@ into a custom component’s <code>props</code>, and the component can <code>upda
 facilitate interaction, because these same variables’ updated values will affect its other components!
 <br/>
 This is very powerful.</p><p>I demonstrate this by interacting with a small basic custom component, <code>TwoColors</code>.
-Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>The code for the above interaction is as follows:</p><pre><code>[var name:&quot;theCurrentColor&quot; value:undefined /]
-[TwoColors currentColor:theCurrentColor /]
-// Scroll to see rest of code 
-The color selected is [Display value:`theCurrentColor ? theCurrentColor : &quot;not yet chosen&quot;` /]</code></pre><p>I define a <code>var</code> called <code>theCurrentColor</code>, and bind this to both <code>TwoColor</code>’s <code>currentColor</code> prop, and <code>Display</code>’s<code>value</code> prop.</p><p>This <code>TwoColors</code> custom component is defined in my <code>components/</code> folder:</p><pre><code>import React from &#x27;react&#x27;;
+Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>Let’s go over how I made this!
+
+I defined my own custom component, <code>TwoColors</code>, in a file called <code>two-colors.js</code> in my components/ folder, so Idyll knows about it.
+The contents start out in a basic React template:</p><pre><code>import React from &#x27;react&#x27;;
 
 class TwoColors extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.changePropsColor = this.changePropsColor.bind(this);
-  }
-
-  changePropsColor(color) {
-    this.props.updateProps({
-      currentColor: color
-    });
   }
 
   render() {
-    return (
-      &lt;div&gt;
-        &lt;div
-          style={{backgroundColor: &#x27;green&#x27;}}
-          onClick={() =&gt; this.changePropsColor(&#x27;green&#x27;)}
-        &gt;
-         Green 
-        &lt;/div&gt;
-        &lt;div 
-          style={{backgroundColor: &#x27;orange&#x27;}}
-          onClick={() =&gt; this.changePropsColor(&#x27;orange&#x27;)}
-        &gt;
-          Orange
-        &lt;/div&gt;
-      &lt;/div&gt;
-    );
-  }
+    // ... rendered output here
 }
 
-export default TwoColors;</code></pre><p>Notice in <code>TwoColors</code> how it <code>updatesProps</code> of <code>currentColor</code>
-to the respective color after clicking on a div. The <code>currentColor</code>
-prop is binded to our <code>theCurrentColor</code> var, and as such, <code>Display</code> is updated when we update the var.</p><p>As shown, the binding of <code>var</code>s to a custom component’s <code>props</code> is core to Idyll’s interactivity!
+export default TwoColors;</code></pre><p>Note: The <code>export default TwoColors;</code> statement  allows Idyll to find the component a <code>TwoColors</code>.
+See <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export">export</a> docs for more info.</p><p>Now, let’s render two squares of 100x100 pixels. We will render them as <code>div</code>s, and wrap them inside a container <code>div</code>.
+So now, <code>render()</code> looks like:</p><pre><code>render() {
+  // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
+  return (
+    &lt;div&gt;
+      &lt;div
+        className=&quot;square-green&quot;
+        style={{
+          backgroundColor: &#x27;green&#x27;,
+          width: &#x27;100px&#x27;,
+          height: &#x27;100px&#x27;,
+          textAlign: &#x27;center&#x27;
+        }}
+      &gt;
+        Green 
+      &lt;/div&gt;
+      &lt;div
+        className=&quot;square-orange&quot;
+        style={{
+          backgroundColor: &#x27;orange&#x27;,
+          width: &#x27;100px&#x27;,
+          height: &#x27;100px&#x27;,
+          textAlign: &#x27;center&#x27;
+        }}
+      &gt;
+        Orange
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre><p>I injected CSS styling into the square <code>div</code>’s <code>style</code> property.</p><p>Now, inside our <code>index.idyll</code> file, we can create a <code>TwoColors</code> component via:</p><pre><code>[TwoColors /]</code></pre><p>
+and we get the output:</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>Great! Now, let’s add some interactivity!
+Inside <code>index.idyll</code>, we define a variable that will track the last clicked color.
+Because we initially haven’t clicked any color, we’ll initialize the variable’s value to <code>undefined</code>.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:undefined /]</code></pre><p>Then, we’ll <em>bind</em> this variable to a property of <code>TwoColors</code>! Let’s call this property <code>selectedColor</code>, just to
+differentiate between our variable and the prop.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:undefined /]
+[TwoColors selectedColor:lastClickedColor /]</code></pre><p>Inside <code>TwoColors</code>, we’ll add a click event to each square, and upon clicking, the square will update the <code>selectedColor</code> prop,
+which will update our <code>lastClickedColor</code> variable. Let’s add <code>onClick</code> events to both squares. Our updated <code>render()</code> looks like:</p><pre><code>render() {
+  // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
+  return (
+    &lt;div&gt;
+      &lt;div
+        className=&quot;square-green&quot;
+        style={{
+          backgroundColor: &#x27;green&#x27;,
+          width: &#x27;100px&#x27;,
+          height: &#x27;100px&#x27;,
+          textAlign: &#x27;center&#x27;
+        }}
+        onClick={() =&gt; this.changePropsColor(&#x27;green&#x27;)}
+      &gt;
+        Green 
+      &lt;/div&gt;
+      &lt;div
+        className=&quot;square-orange&quot;
+        style={{
+          backgroundColor: &#x27;orange&#x27;,
+          width: &#x27;100px&#x27;,
+          height: &#x27;100px&#x27;,
+          textAlign: &#x27;center&#x27;
+        }}
+        onClick={() =&gt; this.changePropsColor(&#x27;orange&#x27;)}
+      &gt;
+        Orange
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre><p>Let’s also define the <code>changePropsColor</code> function! What it will do is that it’ll accept a <code>color</code> parameter,
+and then <code>updateProps()</code> to the clicked color! (Notice how we passed <code>green</code> and <code>orange</code>, respectively).</p><pre><code>constructor(props) {
+  super(props);
+  
+  this.changePropsColor = this.changePropsColor.bind(this);
+}
 
-</p><h2 id="a-custom-budget-component">A custom budget component</h2><p>TODO showing a more complex and useful example that shows data.</p><p>A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
+changePropsColor(color) {
+  this.props.updateProps({
+    currentColor: color
+  });
+}</code></pre><p>Note: I added that <code>bind</code> call in the constructor because of how class methods work in Javascript. Read more <a href="https://reactjs.org/docs/handling-events.html">here</a>.</p><p>Now, when we click on a square, the <code>changePropsColor</code> function is called, and the <code>selectedColor</code> prop updates to the color clicked,
+and then the <code>lastClickedColor</code> variable becomes updated to the color selected (“green” or “orange”).</p><p>Finally, let’s now display our <code>lastClickedVariable</code> to see it update live!
+
+We’ll use Idyll’s default Display component to display the variable! 
+
+TODO STOP HERE -- WIP continued</p><p>Why does this not compile???</p><h2 id="a-custom-budget-component">A custom budget component</h2><p>TODO showing a more complex and useful example that shows data.</p><p>A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
 This way, they can get a visualization of how much of their budget is going into what category.</p><div style="background-color:lightGreen">$$$$</div></div></div></div></div>
     <script src="static/idyll_index.js"></script>
   </body>
