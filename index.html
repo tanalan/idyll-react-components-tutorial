@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="static/idyll_styles.css" />
   </head>
   <body>
-    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">WIP: Idyll Custom Components</h1><h2 class="dek">Creating your own custom components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Wed Aug 28 2019</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components.
+    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">WIP: Idyll Custom Components</h1><h2 class="dek">Creating your own custom components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Wed Sep 11 2019</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components.
 This article serves as a tutorial for writing your own custom components (in React)
 in Idyll, and is an extension to Idyll’s <a href="https://idyll-lang.org/docs/components/custom">current docs</a> with custom components.</p><p><strong>TODO</strong> This article assumes basic knowledge from Idyll’s docs. (Wording?).</p><p>Since Idyll components are React components under the hood, it may be good to be familiar with the basics of React.
 Their <a href="https://reactjs.org/docs/getting-started.html">docs</a> are well documented, and serve as a great starting point for learning React.</p><blockquote>Idyll posts are designed to support interaction and data-driven graphics.</blockquote><p>I will focus on creating a (basic?) custom component emphasizes Idyll’s interaction functionality, and ....??? TODO</p><h2 id="core-custom-component-ideas">Core custom component ideas</h2><p>Very important to an Idyll document’s interactivity is its interaction with <strong>variables</strong>. This is important for
@@ -28,15 +28,51 @@ method into the <code>props</code> object of a custom component. We pass our var
 into a custom component’s <code>props</code>, and the component can <code>updateProps</code>, which
 facilitate interaction, because these same variables’ updated values will affect its other components!
 <br/>
-This is very powerful.</p><p>I demonstrate this with a small basic custom component, <code>TwoColors</code>.
-Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div style="background-color:green">Green</div><div style="background-color:orange">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>The code for the above interaction is as follows:</p><pre><code>[var name:&quot;theCurrentColor&quot; value:undefined /]
+This is very powerful.</p><p>I demonstrate this by interacting with a small basic custom component, <code>TwoColors</code>.
+Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>The code for the above interaction is as follows:</p><pre><code>[var name:&quot;theCurrentColor&quot; value:undefined /]
 [TwoColors currentColor:theCurrentColor /]
 // Scroll to see rest of code 
-The color selected is [Display value:`theCurrentColor ? theCurrentColor : &quot;not yet chosen&quot;` /]</code></pre><p>I define a <code>var</code> called <code>theCurrentColor</code>, and bind this to both <code>TwoColor</code>’s <code>currentColor</code> prop, and <code>Display</code>’s<code>value</code> prop.</p><p>This <code>TwoColors</code> custom component is defined in my <code>components/</code> folder, with source code <a href="https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js">here</a>.</p><p>Notice in the <a href="https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/two-colors.js#L11">source code</a> of <code>TwoColors</code> how it <code>updatesProps</code> of <code>currentColor</code>
-to the respective color after clicking on a div. The <code>currentColor</code> prop is binded to our <code>theCurrentColor</code> var, and as such, <code>Display</code> is updated when we update the var.</p><p>As shown, the binding of <code>var</code>s to a custom component’s <code>props</code> is core to Idyll’s interactivity!
+The color selected is [Display value:`theCurrentColor ? theCurrentColor : &quot;not yet chosen&quot;` /]</code></pre><p>I define a <code>var</code> called <code>theCurrentColor</code>, and bind this to both <code>TwoColor</code>’s <code>currentColor</code> prop, and <code>Display</code>’s<code>value</code> prop.</p><p>This <code>TwoColors</code> custom component is defined in my <code>components/</code> folder:</p><pre><code>import React from &#x27;react&#x27;;
+
+class TwoColors extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.changePropsColor = this.changePropsColor.bind(this);
+  }
+
+  changePropsColor(color) {
+    this.props.updateProps({
+      currentColor: color
+    });
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;div
+          style={{backgroundColor: &#x27;green&#x27;}}
+          onClick={() =&gt; this.changePropsColor(&#x27;green&#x27;)}
+        &gt;
+         Green 
+        &lt;/div&gt;
+        &lt;div 
+          style={{backgroundColor: &#x27;orange&#x27;}}
+          onClick={() =&gt; this.changePropsColor(&#x27;orange&#x27;)}
+        &gt;
+          Orange
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default TwoColors;</code></pre><p>Notice in <code>TwoColors</code> how it <code>updatesProps</code> of <code>currentColor</code>
+to the respective color after clicking on a div. The <code>currentColor</code>
+prop is binded to our <code>theCurrentColor</code> var, and as such, <code>Display</code> is updated when we update the var.</p><p>As shown, the binding of <code>var</code>s to a custom component’s <code>props</code> is core to Idyll’s interactivity!
 
 </p><h2 id="a-custom-budget-component">A custom budget component</h2><p>TODO showing a more complex and useful example that shows data.</p><p>A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
-This way, they can get a visualization of how much of their budget is going into what category.</p></div></div></div></div>
+This way, they can get a visualization of how much of their budget is going into what category.</p><div style="background-color:lightGreen">$$$$</div></div></div></div></div>
     <script src="static/idyll_index.js"></script>
   </body>
 </html>
