@@ -198,13 +198,15 @@ Note: I added that `bind` call in the constructor because of how class methods w
 Now, when we click on a square, the `changePropsColor` function is called, and the `selectedColor` prop updates to the color clicked,
 and then the `lastClickedColor` variable becomes updated to the color selected ("green" or "orange").
 
-Finally, let's now display our `lastClickedVariable` to see it update live!
+Finally, let's now display our `lastClickedColor` to see it update live!
 
 We'll use Idyll's default Display component to display the variable! 
-
 TODO STOP HERE -- WIP continued
 
+
+````
 Why does this not compile???
+```
 
 ## A custom budget component
 
