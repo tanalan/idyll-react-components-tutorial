@@ -42,6 +42,7 @@ method into the `props` object of a custom component. We pass our variables
 into a custom component's `props`, and the component can `updateProps`, which
 facilitate interaction, because these same variables' updated values will affect its other components!
 [br/]
+
 This is very powerful.
 
 I demonstrate this by interacting with a small basic custom component, `TwoColors`.

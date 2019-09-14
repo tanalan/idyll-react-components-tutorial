@@ -9,7 +9,7 @@ class TwoColors extends React.PureComponent {
 
   changePropsColor(color) {
     this.props.updateProps({
-      currentColor: color
+      selectedColor: color
     });
   }
 
