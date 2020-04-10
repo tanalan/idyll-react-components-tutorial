@@ -16,13 +16,12 @@
     <link rel="stylesheet" href="static/idyll_styles.css" />
   </head>
   <body>
-    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">WIP: Idyll Custom Components</h1><h2 class="dek">Creating your own custom components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Sat Sep 14 2019</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components.
+    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">WIP: Idyll Custom Components</h1><h2 class="dek">Creating your own custom components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Thu Apr 09 2020</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components.
 This article serves as a tutorial for writing your own custom components (in React)
 in Idyll, and is an extension to Idyll’s <a href="https://idyll-lang.org/docs/components/custom">current docs</a> with custom components.</p><p><strong>TODO</strong> This article assumes basic knowledge from Idyll’s docs. (Wording?).</p><p>Since Idyll components are React components under the hood, it may be good to be familiar with the basics of React.
 Their <a href="https://reactjs.org/docs/getting-started.html">docs</a> are well documented, and serve as a great starting point for learning React.</p><blockquote>Idyll posts are designed to support interaction and data-driven graphics.</blockquote><p>I will focus on creating a (basic?) custom component emphasizes Idyll’s interaction functionality, and ....??? TODO</p><h2 id="core-custom-component-ideas">Core custom component ideas</h2><p>Very important to an Idyll document’s interactivity is its interaction with <strong>variables</strong>. This is important for
-writing custom components that have interactivity with users, as well as other components.</p><h2 id="writing-custom-components">Writing custom components</h2><p>In Idyll, a variable can be <em>binded</em> to a component’s property (<code>prop</code>). If this variable value is updated, all
-components with a bind to this variable also updates!
-<br/>
+writing custom components that have interactivity with users, as well as other components.</p><h2 id="writing-custom-components">Writing custom components</h2><p>In Idyll, a variable can be <em>binded</em> to a component’s property (<code>prop</code>). If this variable is updated, all
+components with a bind to this variable also updates with this new value.<br/>
 In particular, for all custom components, Idyll injects an <code>updateProps</code>
 method into the <code>props</code> object of a custom component. We pass our variables
 into a custom component’s <code>props</code>, and the component can <code>updateProps</code>, which
@@ -43,10 +42,9 @@ class TwoColors extends React.PureComponent {
   }
 }
 
-export default TwoColors;</code></pre><p>Note: The <code>export default TwoColors;</code> statement  allows Idyll to find the component a <code>TwoColors</code>.
+export default TwoColors;</code></pre><p>Note: The <code>export default TwoColors;</code> statement  allows Idyll to find the component <code>TwoColors</code>.
 See <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export">export</a> docs for more info.</p><p>Now, let’s render two squares of 100x100 pixels. We will render them as <code>div</code>s, and wrap them inside a container <code>div</code>.
 So now, <code>render()</code> looks like:</p><pre><code>render() {
-  // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
   return (
     &lt;div&gt;
       &lt;div
@@ -109,7 +107,7 @@ which will update our <code>lastClickedColor</code> variable. Let’s add <code>
       &lt;/div&gt;
     &lt;/div&gt;
   );
-}</code></pre><p>Let’s also define the <code>changePropsColor</code> function! What it will do is that it’ll accept a <code>color</code> parameter,
+}</code></pre><p>Let’s also define the <code>changePropsColor</code> function! It will accept a <code>color</code> parameter,
 and then <code>updateProps()</code> to the clicked color! (Notice how we passed <code>green</code> and <code>orange</code>, respectively).</p><pre><code>constructor(props) {
   super(props);
   
@@ -117,15 +115,18 @@ and then <code>updateProps()</code> to the clicked color! (Notice how we passed 
 }
 
 changePropsColor(color) {
-  this.props.updateProps({
+  this.props.updateProps({ // This uses the `updateProps` method that Idyll injects into components
     currentColor: color
   });
 }</code></pre><p>Note: I added that <code>bind</code> call in the constructor because of how class methods work in Javascript. Read more <a href="https://reactjs.org/docs/handling-events.html">here</a>.</p><p>Now, when we click on a square, the <code>changePropsColor</code> function is called, and the <code>selectedColor</code> prop updates to the color clicked,
-and then the <code>lastClickedColor</code> variable becomes updated to the color selected (“green” or “orange”).</p><p>Finally, let’s now display our <code>lastClickedVariable</code> to see it update live!
+and then the <code>lastClickedColor</code> variable becomes updated to the color selected (“green” or “orange”).</p><p>Finally, let’s now display our <code>lastClickedColor</code> to see it update live!
 
-We’ll use Idyll’s default Display component to display the variable! 
+We’ll use Idyll’s default Display component to display the variable!
 
-TODO STOP HERE -- WIP continued</p><p>Why does this not compile???</p><h2 id="a-custom-budget-component">A custom budget component</h2><p>TODO showing a more complex and useful example that shows data.</p><p>A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
+</p><pre><code>[var name:&quot;lastClickedColor&quot; value:undefined /]
+[TwoColors selectedColor:lastClickedColor /]
+
+The color clicked is [Display value:`lastClickedColor ? lastClickedColor : &quot;not yet chosen&quot;` /]</code></pre><p>Which results in what we saw before:<div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div></p><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><h2 id="a-custom-budget-component">A custom budget component</h2><p>TODO showing a more complex and useful example that shows data.</p><p>A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
 This way, they can get a visualization of how much of their budget is going into what category.</p><div style="background-color:lightGreen">$$$$</div></div></div></div></div>
     <script src="static/idyll_index.js"></script>
   </body>
