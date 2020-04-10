@@ -8,12 +8,9 @@ class Budgeter extends React.PureComponent {
 
   render() {
     return (
-      <div className="budgeter-container">
-        <div>
-          What expense?
-          What how much
-        </div>
-        <div style={{backgroundColor: 'lightGreen'}}>
+      <div className='budgeter-container'>
+        <div>What expense? What how much</div>
+        <div style={{ backgroundColor: 'lightGreen' }}>
           <PieChart
             data={[
               { title: 'One', value: 10, color: '#E38627' },

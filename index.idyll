@@ -220,12 +220,16 @@ Which results in what we saw before:
 
 The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not yet chosen"` /]
 
-## A custom budget component
+## A more complex version
 
 Let's work on a more interesting component.
-This will be a budgeter component where 
 
-A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
-This way, they can get a visualization of how much of their budget is going into what category.
+[var name:"circleSize" value:100 /]
+[Range min:0 max:300 value:circleSize /]
+[Display value:circleSize /]
 
-[Budgeter /]
+[var name:"deflationSize" value:0 /]
+[Range min:0 max:circleSize value:deflationSize /]
+[Display value:deflationSize /]
+
+[Balloon size:circleSize deflationSize:deflationSize /]
