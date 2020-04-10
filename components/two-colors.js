@@ -14,7 +14,6 @@ class TwoColors extends React.PureComponent {
   }
 
   render() {
-    // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
     return (
       <div>
         <div

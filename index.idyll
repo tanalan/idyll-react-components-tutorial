@@ -34,8 +34,8 @@ writing custom components that have interactivity with users, as well as other c
 
 ## Writing custom components
 
-In Idyll, a variable can be *binded* to a component's property (`prop`). If this variable value is updated, all
-components with a bind to this variable also updates!
+In Idyll, a variable can be *binded* to a component's property (`prop`). If this variable is updated, all
+components with a bind to this variable also updates with this new value.
 [br /]
 In particular, for all custom components, Idyll injects an `updateProps`
 method into the `props` object of a custom component. We pass our variables
@@ -74,7 +74,7 @@ class TwoColors extends React.PureComponent {
 export default TwoColors;
 ```
 
-Note: The `export default TwoColors;` statement  allows Idyll to find the component a `TwoColors`.
+Note: The `export default TwoColors;` statement  allows Idyll to find the component `TwoColors`.
 See [export](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export) docs for more info.
 
 Now, let's render two squares of 100x100 pixels. We will render them as `div`s, and wrap them inside a container `div`.
@@ -82,7 +82,6 @@ So now, `render()` looks like:
 
 ```
 render() {
-  // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
   return (
     <div>
       <div
@@ -176,7 +175,7 @@ render() {
 }
 ```
 
-Let's also define the `changePropsColor` function! What it will do is that it'll accept a `color` parameter,
+Let's also define the `changePropsColor` function! It will accept a `color` parameter,
 and then `updateProps()` to the clicked color! (Notice how we passed `green` and `orange`, respectively).
 
 ```
@@ -187,7 +186,7 @@ constructor(props) {
 }
 
 changePropsColor(color) {
-  this.props.updateProps({
+  this.props.updateProps({ // This uses the `updateProps` method that Idyll injects into components
     currentColor: color
   });
 }
@@ -200,13 +199,26 @@ and then the `lastClickedColor` variable becomes updated to the color selected (
 
 Finally, let's now display our `lastClickedColor` to see it update live!
 
-We'll use Idyll's default Display component to display the variable! 
-TODO STOP HERE -- WIP continued
+We'll use Idyll's default Display component to display the variable!
 
+// ```
+// [var name:"lastClickedColor" value:undefined /]
+// [TwoColors selectedColor:lastClickedColor /]
+// The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not yet chosen"` /]
+// ```
 
 ```
-Why does this not compile???
+[var name:"lastClickedColor" value:undefined /]
+[TwoColors selectedColor:lastClickedColor /]
+
+The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not yet chosen"` /]
 ```
+
+Which results in what we saw before:
+[var name:"lastClickedColor" value:undefined /]
+[TwoColors selectedColor:lastClickedColor /]
+
+The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not yet chosen"` /]
 
 ## A custom budget component
 
