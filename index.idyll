@@ -222,7 +222,8 @@ The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not 
 
 ## A custom budget component
 
-TODO showing a more complex and useful example that shows data.
+Let's work on a more interesting component.
+This will be a budgeter component where 
 
 A budgeter bar where the user interacts by having a budget amount, and adding spendings that will change how the bar looks.
 This way, they can get a visualization of how much of their budget is going into what category.
