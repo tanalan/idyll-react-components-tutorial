@@ -24,15 +24,19 @@ class Balloon extends React.PureComponent {
     }
 
     return (
-      <div
-        style={{
-          width: this.props.size + 'px',
-          height: this.props.size + 'px',
-          borderRadius: '50%',
-          backgroundColor: 'black',
-        }}
-        onClick={() => this.deflate()}
-      ></div>
+      <div>
+        <svg
+          viewBox={`0 0 ${this.props.size} ${this.props.size}`}
+          width={`${this.props.size}`}
+          height={`${this.props.size}`}
+          onClick={() => this.deflate()}
+          style={{
+            transition: 'width 1s, height 1s',
+          }}
+        >
+          <circle cx="50%" cy="50%" r={`${this.props.size / 2}`} fill="orange"/>
+        </svg>
+      </div>
     );
   }
 }
