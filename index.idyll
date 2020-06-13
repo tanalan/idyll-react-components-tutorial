@@ -143,7 +143,6 @@ which will update our `lastClickedColor` variable. Let's add `onClick` events to
 
 ```
 render() {
-  // TODO Would it be okay to use `React.Fragment` instead? Or unnecessary information?
   return (
     <div>
       <div
@@ -222,14 +221,48 @@ The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not 
 
 ## A more complex version
 
-Let's work on a more interesting component.
+Let's work on a more interesting component. Below, we have two range sliders, and a balloon.
+The first slider controls the size of the balloon.
+The second slider controls the scale of the balloon's deflation.
 
-[var name:"circleSize" value:100 /]
-[Range min:0 max:300 value:circleSize /]
-[Display value:circleSize /]
+I've constructed this so that when we click on the balloon, it will deflate by the scale from the second slider.
 
+Try changing the size of the balloon with the first slider, and also try deflating it by clicking it (make sure the second slider is not at 0).
+
+[var name:"circleSize" value:1 /]
 [var name:"deflationSize" value:0 /]
-[Range min:0 max:circleSize value:deflationSize /]
-[Display value:deflationSize /]
+
+[div style:`{position:'relative', zIndex:100}`]
+  [Range min:0.25 max:5 value:circleSize step:0.25 /]
+  [Display value:circleSize /]
+  Controls the size of the balloon
+
+  [Range min:0 max:circleSize value:deflationSize step:0.25 /]
+  [Display value:deflationSize /]
+  Controls the deflation scale
+[/div]
 
 [Balloon size:circleSize deflationSize:deflationSize /]
+
+Let's go over how we can do this.
+
+We introduce two variables binded to each range slider:
+
+
+```
+[var name:"circleSize" value:1 /]
+[var name:"deflationSize" value:0 /]
+
+// The div and styling are added so that we can still see these over the balloon
+[div style:`{position:'relative', zIndex:100}`]
+  [Range min:0.25 max:5 value:circleSize step:0.25 /]
+  [Display value:circleSize /]
+  Controls the size of the balloon
+
+  [Range min:0 max:circleSize value:deflationSize step:0.25 /]
+  [Display value:deflationSize /]
+  Controls the deflation scale
+[/div]
+```
+
+Now, we will render a balloon component that will take our two variables as props, so that its size can be updated based off them.
