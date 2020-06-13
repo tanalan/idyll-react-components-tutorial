@@ -2,11 +2,11 @@
 
 [Header
   fullWidth:true
-  title:"WIP: Idyll Custom Components"
+  title:"Idyll Custom Components"
   subtitle:"Creating your own custom components in Idyll"
   author:"Alan Tan"
   authorLink:"https://github.com/tanalan"
-  date:`(new Date()).toDateString()`
+  date:`(new Date('June 12, 2020')).toDateString()`
   background:"#222222"
   color:"#ffffff"
 /]
@@ -17,15 +17,8 @@ Idyll is already rich with many [built-it](https://idyll-lang.org/docs/component
 This article serves as a tutorial for writing your own custom components (in React)
 in Idyll, and is an extension to Idyll's [current docs](https://idyll-lang.org/docs/components/custom) with custom components.
 
-**TODO** This article assumes basic knowledge from Idyll's docs. (Wording?).
-
 Since Idyll components are React components under the hood, it may be good to be familiar with the basics of React.
 Their [docs](https://reactjs.org/docs/getting-started.html) are well documented, and serve as a great starting point for learning React.
-
-
-> Idyll posts are designed to support interaction and data-driven graphics.
-
-I will focus on creating a (basic?) custom component emphasizes Idyll's interaction functionality, and ....??? TODO
 
 ## Core custom component ideas
 
@@ -48,14 +41,12 @@ This is very powerful.
 I demonstrate this by interacting with a small basic custom component, `TwoColors`.
 Try clicking on a colored section below, and notice how the color selected text changes.
 
-[var name:"theCurrentColor" value:undefined /]
+[var name:"theCurrentColor" value:null /]
 [TwoColors selectedColor:theCurrentColor /]
 
 The color clicked is [Display value:`theCurrentColor ? theCurrentColor : "not yet chosen"` /]
 
-Let's go over how I made this!
-
-I defined my own custom component, `TwoColors`, in a file called `two-colors.js` in my components/ folder, so Idyll knows about it.
+To make this, I defined my own custom component, `TwoColors`, in a file called `two-colors.js` in my components/ folder, so Idyll knows about it.
 The contents start out in a basic React template:
 
 ```
@@ -124,21 +115,21 @@ and we get the output:
 
 Great! Now, let's add some interactivity!
 Inside `index.idyll`, we define a variable that will track the last clicked color.
-Because we initially haven't clicked any color, we'll initialize the variable's value to `undefined`.
+Because we initially haven't clicked on a color, we'll initialize the variable's value to `null`.
 
 ```
-[var name:"lastClickedColor" value:undefined /]
+[var name:"lastClickedColor" value:null /]
 ```
 
 Then, we'll *bind* this variable to a property of `TwoColors`! Let's call this property `selectedColor`, just to
 differentiate between our variable and the prop.
 
 ```
-[var name:"lastClickedColor" value:undefined /]
+[var name:"lastClickedColor" value:null /]
 [TwoColors selectedColor:lastClickedColor /]
 ```
 
-Inside `TwoColors`, we'll add a click event to each square, and upon clicking, the square will update the `selectedColor` prop,
+Inside `TwoColors`, we'll add a click event to each square, and upon clicking, the square will update its `selectedColor` prop,
 which will update our `lastClickedColor` variable. Let's add `onClick` events to both squares. Our updated `render()` looks like:
 
 ```
@@ -201,20 +192,20 @@ Finally, let's now display our `lastClickedColor` to see it update live!
 We'll use Idyll's default Display component to display the variable!
 
 // ```
-// [var name:"lastClickedColor" value:undefined /]
+// [var name:"lastClickedColor" value:null /]
 // [TwoColors selectedColor:lastClickedColor /]
 // The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not yet chosen"` /]
 // ```
 
 ```
-[var name:"lastClickedColor" value:undefined /]
+[var name:"lastClickedColor" value:null /]
 [TwoColors selectedColor:lastClickedColor /]
 
 The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not yet chosen"` /]
 ```
 
 Which results in what we saw before:
-[var name:"lastClickedColor" value:undefined /]
+[var name:"lastClickedColor" value:null /]
 [TwoColors selectedColor:lastClickedColor /]
 
 The color clicked is [Display value:`lastClickedColor ? lastClickedColor : "not yet chosen"` /]
@@ -229,20 +220,20 @@ I've constructed this so that when we click on the balloon, it will deflate by t
 
 Try changing the size of the balloon with the first slider, and also try deflating it by clicking it (make sure the second slider is not at 0).
 
-[var name:"circleSize" value:1 /]
+[var name:"balloonSize" value:1 /]
 [var name:"deflationSize" value:0 /]
 
 [div style:`{position:'relative', zIndex:100}`]
-  [Range min:0.25 max:5 value:circleSize step:0.25 /]
-  [Display value:circleSize /]
+  [Range min:0.25 max:5 value:balloonSize step:0.25 /]
+  [Display value:balloonSize /]
   Controls the size of the balloon
 
-  [Range min:0 max:circleSize value:deflationSize step:0.25 /]
+  [Range min:0 max:balloonSize value:deflationSize step:0.25 /]
   [Display value:deflationSize /]
   Controls the deflation scale
 [/div]
 
-[Balloon size:circleSize deflationSize:deflationSize /]
+[Balloon size:balloonSize deflationSize:deflationSize /]
 
 Let's go over how we can do this.
 
@@ -250,19 +241,122 @@ We introduce two variables binded to each range slider:
 
 
 ```
-[var name:"circleSize" value:1 /]
+[var name:"balloonSize" value:1 /]
 [var name:"deflationSize" value:0 /]
 
 // The div and styling are added so that we can still see these over the balloon
 [div style:`{position:'relative', zIndex:100}`]
-  [Range min:0.25 max:5 value:circleSize step:0.25 /]
-  [Display value:circleSize /]
+  [Range min:0.25 max:5 value:balloonSize step:0.25 /]
+  [Display value:balloonSize /]
   Controls the size of the balloon
 
-  [Range min:0 max:circleSize value:deflationSize step:0.25 /]
+  [Range min:0 max:balloonSize value:deflationSize step:0.25 /]
   [Display value:deflationSize /]
   Controls the deflation scale
 [/div]
 ```
 
 Now, we will render a balloon component that will take our two variables as props, so that its size can be updated based off them.
+As such, this balloon will take two props, `size` and `deflationSize`.
+
+```
+[Balloon size:balloonSize deflationSize:deflationSize /]
+```
+
+We want to be able to click on the balloon, and have its size changed (deflated). So, here's what our implementation will look like:
+
+```
+import React from 'react';
+
+// props: size and deflationSize
+class Balloon extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.deflate = this.deflate.bind(this);
+  }
+
+  deflate() {
+    ... TODO
+  }
+
+  render() {
+    return TODO
+  }
+}
+
+export default Balloon;
+```
+
+The `deflate` method will be called when we click on the balloon.
+To implement the `deflate` method, we want to subtract the deflation size from the balloon size, using the injected `updateProps` method.
+
+```
+deflate() {
+  this.props.updateProps({
+    size: this.props.size - this.props.deflationSize,
+  });
+}
+```
+
+Now, let's put the balloon in our `render` method!
+This balloon is actually a custom SVG.
+
+[Matthew Conlen](https://mathisonian.com/), Idyll's creator, helped make it for me.
+
+There are lots of details about the SVG, but we will focus on the part that changes its size based off our `balloonSize`, which is in the `<g>` tag.
+
+```
+render() {
+  return (
+    <div onClick={this.deflate}>
+      <svg width="100%" height="auto" viewBox="0 0 400 500" style={{overflow: 'visible'}} >
+        <path d="M101.124805,255 C100.146564,233.732769 103.780451,291.312889 116.550101,326.561293 C129.319752,361.809698 147.686331,348.668032 144.832964,375.648791 C141.979596,402.62955 110.037653,406.908957 106.501018,421.583026 C102.964383,436.257095 123.051823,445.402516 130.601671,491.110588" id="Path-3" stroke="#000000" strokeWidth="4" fill="none"></path>
+        <g id="Group" transform={`translate(${194/2 * (1-Math.sqrt(this.props.size))},${255* (1-Math.sqrt(this.props.size))}) scale(${Math.sqrt(this.props.size)})`}>
+          <path d="M101.124805,255 C155.402086,255 210.611891,140.073889 188.585412,77.1065481 C166.558932,14.1392068 127.46589,5.68434189e-14 101.124805,5.68434189e-14 C74.7066494,5.68434189e-14 15.5948675,12.267268 2.1949056,77.1065481 C-11.2050563,141.945828 46.8475228,255 101.124805,255 Z" id="Path" fill="#D0021B"></path>
+          <path d="M28.9961639,135 L60,36 C43.3256612,48.9474492 32.9910492,61.8445106 28.9961639,74.6911843 C25.0012787,87.537858 25.0012787,107.640797 28.9961639,135 Z" id="Path-2" fill="#FE8B99"></path>
+        </g>
+      </svg>
+    </div>
+  );
+}
+```
+
+In the `<g>` tag:
+
+```
+<g id="Group" transform={`translate(${194/2 * (1-Math.sqrt(this.props.size))},${255* (1-Math.sqrt(this.props.size))}) scale(${Math.sqrt(this.props.size)})`}>
+```
+
+Essentially, to `transform` the SVG, we `translate` and `scale` it based off `this.props.size`.
+Because `this.props.size` is binded to our `balloonSize`, changing the first slider will change the size of the balloon.
+
+The container `<div onClick={this.deflate}>` over the SVG allows us to click on the balloon, and have the balloon be deflated.
+
+As a final note, we also want to limit the `deflationSize` to be no greater than the `balloonSize`, as otherwise we would get a negative `balloonSize` if we kept deflating.
+So, as a last addition, we will check that when the `deflationSize` is bigger than the `balloonSize`, we update the `deflationSize` to the `balloonSize`.
+
+This is added to our `render` method, before the return.
+
+```
+render() {
+  if (this.props.deflationSize > this.props.size) {
+    this.props.updateProps({
+      deflationSize: this.props.size,
+    });
+  }
+
+  return ...
+}
+```
+
+And that's it! Check out the full balloon component source code [here](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/balloon.js).
+
+To summarize, we introduce variables that are bounded to the props of components. The components will `updateProps` to update the variables,
+and all components bounded to the variables will be updated.
+Idyll grants very much flexibility and interaction between custom components through its use of bounded variables!
+
+[br /]
+
+Feel free to check out the source code for this tutorial [here](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/index.idyll).
+And lastly, for any questions, feedback, and/or comments regarding Idyll, do drop by its [Gitter](https://gitter.im/idyll-lang/Lobby) page!
