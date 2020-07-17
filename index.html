@@ -124,7 +124,7 @@ The first slider controls the size of the balloon.
 The second slider controls the scale of the balloon’s deflation.</p><p>I’ve constructed this so that when we click on the balloon, it will deflate by the scale from the second slider.</p><p>Try changing the size of the balloon with the first slider, and also try deflating it by clicking it. (Note: values of zero are not allowed by choice).</p><div style="position:relative;z-index:100" idyll="[object Object]"><p><input type="range" value="0.5" min="0.1" max="1" step="0.1"/><span class="idyll-display">0.50</span>
   Controls the size of the balloon</p><p><input type="range" value="0.1" min="0.1" max="0.5" step="0.1"/><span class="idyll-display">0.10</span>
   Controls the deflation scale</p></div><div><svg width="100%" height="auto" viewBox="0 0 400 500" style="overflow:visible"><path d="M101.124805,255 C100.146564,233.732769 103.780451,291.312889 116.550101,326.561293 C129.319752,361.809698 147.686331,348.668032 144.832964,375.648791 C141.979596,402.62955 110.037653,406.908957 106.501018,421.583026 C102.964383,436.257095 123.051823,445.402516 130.601671,491.110588" id="Path-3" stroke="#000000" stroke-width="4" fill="none"></path><g id="Group" transform="translate(28.410642224904887,74.68777079743037) scale(0.7071067811865476)"><path d="M101.124805,255 C155.402086,255 210.611891,140.073889 188.585412,77.1065481 C166.558932,14.1392068 127.46589,5.68434189e-14 101.124805,5.68434189e-14 C74.7066494,5.68434189e-14 15.5948675,12.267268 2.1949056,77.1065481 C-11.2050563,141.945828 46.8475228,255 101.124805,255 Z" id="Path" fill="#D0021B"></path><path d="M28.9961639,135 L60,36 C43.3256612,48.9474492 32.9910492,61.8445106 28.9961639,74.6911843 C25.0012787,87.537858 25.0012787,107.640797 28.9961639,135 Z" id="Path-2" fill="#FE8B99"></path></g></svg></div><p>Let’s go over how we can do this.</p><p>We introduce two variables binded to each range slider:</p><pre><code>[var name:&quot;balloonSize&quot; value:0.5 /]
-[var name:&quot;deflationSize&quot; value:0 /]
+[var name:&quot;deflationSize&quot; value:0.1 /]
 
 // The div and styling are added so that we can still see these over the balloon
 [div style:`{position:&#x27;relative&#x27;, zIndex:100}`]
@@ -132,7 +132,7 @@ The second slider controls the scale of the balloon’s deflation.</p><p>I’ve 
   [Display value:balloonSize /]
   Controls the size of the balloon
 
-  [Range min:0 max:balloonSize value:deflationSize step:0.1 /]
+  [Range min:0.1 max:balloonSize value:deflationSize step:0.1 /]
   [Display value:deflationSize /]
   Controls the deflation scale
 [/div]</code></pre><p>Now, we will render a balloon component that will take our two variables as props, so that its size can be updated based off them.
