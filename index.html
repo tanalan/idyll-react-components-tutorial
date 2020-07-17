@@ -16,34 +16,34 @@
     <link rel="stylesheet" href="static/idyll_styles.css" />
   </head>
   <body>
-    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">Idyll Custom Components</h1><h2 class="dek">Creating your own custom components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Fri Jun 12 2020</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components.
-This article serves as a tutorial for writing your own custom components (in React)
-in Idyll, and is an extension to Idyll’s <a href="https://idyll-lang.org/docs/components/custom">current docs</a> with custom components.</p><p>Since Idyll components are React components under the hood, it may be good to be familiar with the basics of React.
-Their <a href="https://reactjs.org/docs/getting-started.html">docs</a> are well documented, and serve as a great starting point for learning React.</p><h2 id="core-custom-component-ideas">Core custom component ideas</h2><p>Very important to an Idyll document’s interactivity is its interaction with <strong>variables</strong>. This is important for
-writing custom components that have interactivity with users, as well as other components.</p><h2 id="writing-custom-components">Writing custom components</h2><p>In Idyll, a variable can be <em>binded</em> to a component’s property (<code>prop</code>). If this variable is updated, all
-components with a bind to this variable also updates with this new value.<br/>
-In particular, for all custom components, Idyll injects an <code>updateProps</code>
+    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"></div><div class="article-header" style="background:#222222;color:#ffffff"><h1 class="hed">Idyll Custom Components</h1><h2 class="dek">Creating custom React components in Idyll</h2><div class="byline">By: <a href="https://github.com/tanalan">Alan Tan</a></div><div class="idyll-pub-date">Fri Jul 17 2020</div></div><div class=" idyll-text-container"><h2 id="introduction">Introduction</h2><p>Idyll is already rich with many <a href="https://idyll-lang.org/docs/components">built-it</a> components. That said, the default components may not be enough to suit all of one’s needs.
+Many of the examples in the <a href="https://idyll-lang.org/gallery">gallery</a> page have components that are custom written, such as the components used in this <a href="https://megan-vo.github.io/basic-beats/">Beat Basics</a> article.
+Much of the creativity Idyll allows is through writing one’s own custom components.</p><p>This article serves as an introductory tutorial for writing your own custom components (in React)
+in Idyll, and is an extension to Idyll’s <a href="https://idyll-lang.org/docs/components/custom">current docs</a> with custom components.</p><p>Idyll components are React components under the hood, and it may be good to be familiar with the basics of React.
+Their <a href="https://reactjs.org/docs/getting-started.html">docs</a> are well documented, and serve as a great starting point for learning React.</p><h2 id="core-custom-component-ideas">Core custom component ideas</h2><p>Very important to an Idyll document’s interactivity is its interaction with <a href="https://idyll-lang.org/docs/syntax#variables">variables</a>. This is important for
+writing custom components that have interactivity with users, as well as other components.</p><p>In Idyll, a variable can be <em>binded</em> to a component’s property (<code>prop</code>). If this variable is updated, all
+components with a bind to this variable also updates with the new value.</p><p>In particular, for all custom components, Idyll injects an <code>updateProps</code>
 method into the <code>props</code> object of a custom component. We pass our variables
 into a custom component’s <code>props</code>, and the component can <code>updateProps</code>, which
 facilitate interaction, because these same variables’ updated values will affect its other components!
-<br/></p><p>This is very powerful.</p><p>I demonstrate this by interacting with a small basic custom component, <code>TwoColors</code>.
-Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>To make this, I defined my own custom component, <code>TwoColors</code>, in a file called <code>two-colors.js</code> in my components/ folder, so Idyll knows about it.
-The contents start out in a basic React template:</p><pre><code>import React from &#x27;react&#x27;;
+<br/></p><p>This is very powerful.</p><h2 id="writing-custom-components">Writing custom components</h2><p>I demonstrate this by interacting with a small basic custom component, <code>TwoColors</code>.
+Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>To make this, I defined my own custom component, <code>TwoColors</code>, in a file called <code>two-colors.js</code> in my components/ folder, letting Idyll know about it.
+The contents start out with a basic React template:</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code><span style="color:#333;font-weight:bold">import</span> React <span style="color:#333;font-weight:bold">from</span> <span style="color:#d14">&#x27;react&#x27;</span>;
 
-class TwoColors extends React.PureComponent {
-  constructor(props) {
-    super(props);
+<span><span style="color:#333;font-weight:bold">class</span> <span style="color:#900;font-weight:bold">TwoColors</span> <span style="color:#333;font-weight:bold">extends</span> <span style="color:#900;font-weight:bold">React</span>.<span style="color:#900;font-weight:bold">PureComponent</span> </span>{
+  <span style="color:#333;font-weight:bold">constructor</span>(props) {
+    <span style="color:#333;font-weight:bold">super</span>(props);
   }
 
   render() {
-    // ... rendered output here
+    <span style="color:#998;font-style:italic">// ... rendered output here</span>
   }
 }
 
-export default TwoColors;</code></pre><p>Note: The <code>export default TwoColors;</code> statement  allows Idyll to find the component <code>TwoColors</code>.
+<span style="color:#333;font-weight:bold">export</span> <span style="color:#333;font-weight:bold">default</span> TwoColors;</code></pre><p>Note: The <code>export default TwoColors;</code> statement  allows Idyll to find the component <code>TwoColors</code>.
 See <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export">export</a> docs for more info.</p><p>Now, let’s render two squares of 100x100 pixels. We will render them as <code>div</code>s, and wrap them inside a container <code>div</code>.
-So now, <code>render()</code> looks like:</p><pre><code>render() {
-  return (
+So now, <code>render()</code> looks like:</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code>render() {
+  <span style="color:#333;font-weight:bold">return</span> (
     &lt;div&gt;
       &lt;div
         className=&quot;square-green&quot;
@@ -75,8 +75,8 @@ Inside <code>index.idyll</code>, we define a variable that will track the last c
 Because we initially haven’t clicked on a color, we’ll initialize the variable’s value to <code>null</code>.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:null /]</code></pre><p>Then, we’ll <em>bind</em> this variable to a property of <code>TwoColors</code>! Let’s call this property <code>selectedColor</code>, just to
 differentiate between our variable and the prop.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:null /]
 [TwoColors selectedColor:lastClickedColor /]</code></pre><p>Inside <code>TwoColors</code>, we’ll add a click event to each square, and upon clicking, the square will update its <code>selectedColor</code> prop,
-which will update our <code>lastClickedColor</code> variable. Let’s add <code>onClick</code> events to both squares. Our updated <code>render()</code> looks like:</p><pre><code>render() {
-  return (
+which will update our <code>lastClickedColor</code> variable. Let’s add <code>onClick</code> events to both squares. Our updated <code>render()</code> looks like:</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code>render() {
+  <span style="color:#333;font-weight:bold">return</span> (
     &lt;div&gt;
       &lt;div
         className=&quot;square-green&quot;
@@ -86,7 +86,7 @@ which will update our <code>lastClickedColor</code> variable. Let’s add <code>
           height: &#x27;100px&#x27;,
           textAlign: &#x27;center&#x27;
         }}
-        onClick={() =&gt; this.changePropsColor(&#x27;green&#x27;)}
+        onClick={() =&gt; this.changePropsColor(&#x27;green&#x27;)} // Added this
       &gt;
         Green 
       &lt;/div&gt;
@@ -98,56 +98,50 @@ which will update our <code>lastClickedColor</code> variable. Let’s add <code>
           height: &#x27;100px&#x27;,
           textAlign: &#x27;center&#x27;
         }}
-        onClick={() =&gt; this.changePropsColor(&#x27;orange&#x27;)}
+        onClick={() =&gt; this.changePropsColor(&#x27;orange&#x27;)} // Added this
       &gt;
         Orange
       &lt;/div&gt;
     &lt;/div&gt;
   );
 }</code></pre><p>Let’s also define the <code>changePropsColor</code> function! It will accept a <code>color</code> parameter,
-and then <code>updateProps()</code> to the clicked color! (Notice how we passed <code>green</code> and <code>orange</code>, respectively).</p><pre><code>constructor(props) {
-  super(props);
-  
-  this.changePropsColor = this.changePropsColor.bind(this);
+and then <code>updateProps()</code> to the clicked color! (Notice how we passed <code>green</code> and <code>orange</code> in the previous code block).</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code><span style="color:#333;font-weight:bold">constructor</span>(props) {
+  <span style="color:#333;font-weight:bold">super</span>(props);
 }
 
 changePropsColor(color) {
-  this.props.updateProps({ // This uses the `updateProps` method that Idyll injects into components
+  <span style="color:#333;font-weight:bold">this</span>.props.updateProps({ <span style="color:#998;font-style:italic">// This uses the `updateProps` method that Idyll injects into components</span>
     currentColor: color
   });
-}</code></pre><p>Note: I added that <code>bind</code> call in the constructor because of how class methods work in Javascript. Read more <a href="https://reactjs.org/docs/handling-events.html">here</a>.</p><p>Now, when we click on a square, the <code>changePropsColor</code> function is called, and the <code>selectedColor</code> prop updates to the color clicked,
+}</code></pre><p>Now, when we click on a square, the <code>changePropsColor</code> function is called, and the <code>selectedColor</code> prop updates to the color clicked,
 and then the <code>lastClickedColor</code> variable becomes updated to the color selected (“green” or “orange”).</p><p>Finally, let’s now display our <code>lastClickedColor</code> to see it update live!
 
-We’ll use Idyll’s default Display component to display the variable!
-
-</p><pre><code>[var name:&quot;lastClickedColor&quot; value:null /]
+We’ll use Idyll’s default Display component to display the variable.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:null /]
 [TwoColors selectedColor:lastClickedColor /]
 
 The color clicked is [Display value:`lastClickedColor ? lastClickedColor : &quot;not yet chosen&quot;` /]</code></pre><p>Which results in what we saw before:<div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div></p><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><h2 id="a-more-complex-version">A more complex version</h2><p>Let’s work on a more interesting component. Below, we have two range sliders, and a balloon.
 The first slider controls the size of the balloon.
-The second slider controls the scale of the balloon’s deflation.</p><p>I’ve constructed this so that when we click on the balloon, it will deflate by the scale from the second slider.</p><p>Try changing the size of the balloon with the first slider, and also try deflating it by clicking it (make sure the second slider is not at 0).</p><div style="position:relative;z-index:100" idyll="[object Object]"><p><input type="range" value="1" min="0.25" max="5" step="0.25"/><span class="idyll-display">1.00</span>
-  Controls the size of the balloon</p><p><input type="range" value="0" min="0" max="1" step="0.25"/><span class="idyll-display">0.00</span>
-  Controls the deflation scale</p></div><div><svg width="100%" height="auto" viewBox="0 0 400 500" style="overflow:visible"><path d="M101.124805,255 C100.146564,233.732769 103.780451,291.312889 116.550101,326.561293 C129.319752,361.809698 147.686331,348.668032 144.832964,375.648791 C141.979596,402.62955 110.037653,406.908957 106.501018,421.583026 C102.964383,436.257095 123.051823,445.402516 130.601671,491.110588" id="Path-3" stroke="#000000" stroke-width="4" fill="none"></path><g id="Group" transform="translate(0,0) scale(1)"><path d="M101.124805,255 C155.402086,255 210.611891,140.073889 188.585412,77.1065481 C166.558932,14.1392068 127.46589,5.68434189e-14 101.124805,5.68434189e-14 C74.7066494,5.68434189e-14 15.5948675,12.267268 2.1949056,77.1065481 C-11.2050563,141.945828 46.8475228,255 101.124805,255 Z" id="Path" fill="#D0021B"></path><path d="M28.9961639,135 L60,36 C43.3256612,48.9474492 32.9910492,61.8445106 28.9961639,74.6911843 C25.0012787,87.537858 25.0012787,107.640797 28.9961639,135 Z" id="Path-2" fill="#FE8B99"></path></g></svg></div><p>Let’s go over how we can do this.</p><p>We introduce two variables binded to each range slider:</p><pre><code>[var name:&quot;balloonSize&quot; value:1 /]
+The second slider controls the scale of the balloon’s deflation.</p><p>I’ve constructed this so that when we click on the balloon, it will deflate by the scale from the second slider.</p><p>Try changing the size of the balloon with the first slider, and also try deflating it by clicking it. (Note: values of zero are not allowed by choice).</p><div style="position:relative;z-index:100" idyll="[object Object]"><p><input type="range" value="0.5" min="0.1" max="1" step="0.1"/><span class="idyll-display">0.50</span>
+  Controls the size of the balloon</p><p><input type="range" value="0.1" min="0.1" max="0.5" step="0.1"/><span class="idyll-display">0.10</span>
+  Controls the deflation scale</p></div><div><svg width="100%" height="auto" viewBox="0 0 400 500" style="overflow:visible"><path d="M101.124805,255 C100.146564,233.732769 103.780451,291.312889 116.550101,326.561293 C129.319752,361.809698 147.686331,348.668032 144.832964,375.648791 C141.979596,402.62955 110.037653,406.908957 106.501018,421.583026 C102.964383,436.257095 123.051823,445.402516 130.601671,491.110588" id="Path-3" stroke="#000000" stroke-width="4" fill="none"></path><g id="Group" transform="translate(28.410642224904887,74.68777079743037) scale(0.7071067811865476)"><path d="M101.124805,255 C155.402086,255 210.611891,140.073889 188.585412,77.1065481 C166.558932,14.1392068 127.46589,5.68434189e-14 101.124805,5.68434189e-14 C74.7066494,5.68434189e-14 15.5948675,12.267268 2.1949056,77.1065481 C-11.2050563,141.945828 46.8475228,255 101.124805,255 Z" id="Path" fill="#D0021B"></path><path d="M28.9961639,135 L60,36 C43.3256612,48.9474492 32.9910492,61.8445106 28.9961639,74.6911843 C25.0012787,87.537858 25.0012787,107.640797 28.9961639,135 Z" id="Path-2" fill="#FE8B99"></path></g></svg></div><p>Let’s go over how we can do this.</p><p>We introduce two variables binded to each range slider:</p><pre><code>[var name:&quot;balloonSize&quot; value:0.5 /]
 [var name:&quot;deflationSize&quot; value:0 /]
 
 // The div and styling are added so that we can still see these over the balloon
 [div style:`{position:&#x27;relative&#x27;, zIndex:100}`]
-  [Range min:0.25 max:5 value:balloonSize step:0.25 /]
+  [Range min:0.1 max:1 value:balloonSize step:0.1 /]
   [Display value:balloonSize /]
   Controls the size of the balloon
 
-  [Range min:0 max:balloonSize value:deflationSize step:0.25 /]
+  [Range min:0 max:balloonSize value:deflationSize step:0.1 /]
   [Display value:deflationSize /]
   Controls the deflation scale
 [/div]</code></pre><p>Now, we will render a balloon component that will take our two variables as props, so that its size can be updated based off them.
-As such, this balloon will take two props, <code>size</code> and <code>deflationSize</code>.</p><pre><code>[Balloon size:balloonSize deflationSize:deflationSize /]</code></pre><p>We want to be able to click on the balloon, and have its size changed (deflated). So, here’s what our implementation will look like:</p><pre><code>import React from &#x27;react&#x27;;
+As such, this balloon will take two props, <code>size</code> and <code>deflationSize</code>.</p><pre><code>[Balloon size:balloonSize deflationSize:deflationSize /]</code></pre><p>We want to be able to click on the balloon, and have its size changed (deflated). So, here’s what our implementation will look like:</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code><span style="color:#333;font-weight:bold">import</span> React <span style="color:#333;font-weight:bold">from</span> <span style="color:#d14">&#x27;react&#x27;</span>;
 
-// props: size and deflationSize
-class Balloon extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.deflate = this.deflate.bind(this);
+<span style="color:#998;font-style:italic">// props: size and deflationSize</span>
+<span><span style="color:#333;font-weight:bold">class</span> <span style="color:#900;font-weight:bold">Balloon</span> <span style="color:#333;font-weight:bold">extends</span> <span style="color:#900;font-weight:bold">React</span>.<span style="color:#900;font-weight:bold">PureComponent</span> </span>{
+  <span style="color:#333;font-weight:bold">constructor</span>(props) {
+    <span style="color:#333;font-weight:bold">super</span>(props);
   }
 
   deflate() {
@@ -155,19 +149,23 @@ class Balloon extends React.PureComponent {
   }
 
   render() {
-    return TODO
+    ... TODO
   }
 }
 
-export default Balloon;</code></pre><p>The <code>deflate</code> method will be called when we click on the balloon.
-To implement the <code>deflate</code> method, we want to subtract the deflation size from the balloon size, using the injected <code>updateProps</code> method.</p><pre><code>deflate() {
-  this.props.updateProps({
-    size: this.props.size - this.props.deflationSize,
-  });
+<span style="color:#333;font-weight:bold">export</span> <span style="color:#333;font-weight:bold">default</span> Balloon;</code></pre><p>The <code>deflate</code> method will be called when we click on the balloon.
+To implement the <code>deflate</code> method, we want to subtract the deflation size from the balloon size, and use the injected <code>updateProps</code> method to update the balloon size.
+(I added a few details to handle floating point subtraction and also disallowing our size to get to 0).</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code>deflate() {
+  <span style="color:#333;font-weight:bold">const</span> updatedSize = (<span style="color:#333;font-weight:bold">this</span>.props.size - <span style="color:#333;font-weight:bold">this</span>.props.deflationSize).toFixed(<span style="color:#008080">2</span>); <span style="color:#998;font-style:italic">// handling floating point subtraction</span>
+  <span style="color:#333;font-weight:bold">if</span> (updatedSize &gt; <span style="color:#008080">0</span>) {
+    <span style="color:#333;font-weight:bold">this</span>.props.updateProps({
+      <span>size</span>: updatedSize,
+    });
+  }
 }</code></pre><p>Now, let’s put the balloon in our <code>render</code> method!
-This balloon is actually a custom SVG.</p><p><a href="https://mathisonian.com/">Matthew Conlen</a>, Idyll’s creator, helped make it for me.</p><p>There are lots of details about the SVG, but we will focus on the part that changes its size based off our <code>balloonSize</code>, which is in the <code>&lt;g&gt;</code> tag.</p><pre><code>render() {
-  return (
-    &lt;div onClick={this.deflate}&gt;
+This balloon is actually a custom SVG.</p><p><a href="https://mathisonian.com/">Matthew Conlen</a>, Idyll’s creator, helped make it for me.</p><p>There are lots of details about the SVG, but we will focus on the part that changes its size based off our <code>balloonSize</code>, which is in the <code>&lt;g&gt;</code> tag.</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code>render() {
+  <span style="color:#333;font-weight:bold">return</span> (
+    &lt;div onClick={() =&gt; this.deflate}&gt;
       &lt;svg width=&quot;100%&quot; height=&quot;auto&quot; viewBox=&quot;0 0 400 500&quot; style={{overflow: &#x27;visible&#x27;}} &gt;
         &lt;path d=&quot;M101.124805,255 C100.146564,233.732769 103.780451,291.312889 116.550101,326.561293 C129.319752,361.809698 147.686331,348.668032 144.832964,375.648791 C141.979596,402.62955 110.037653,406.908957 106.501018,421.583026 C102.964383,436.257095 123.051823,445.402516 130.601671,491.110588&quot; id=&quot;Path-3&quot; stroke=&quot;#000000&quot; strokeWidth=&quot;4&quot; fill=&quot;none&quot;&gt;&lt;/path&gt;
         &lt;g id=&quot;Group&quot; transform={`translate(${194/2 * (1-Math.sqrt(this.props.size))},${255* (1-Math.sqrt(this.props.size))}) scale(${Math.sqrt(this.props.size)})`}&gt;
@@ -177,16 +175,16 @@ This balloon is actually a custom SVG.</p><p><a href="https://mathisonian.com/">
       &lt;/svg&gt;
     &lt;/div&gt;
   );
-}</code></pre><p>In the <code>&lt;g&gt;</code> tag:</p><pre><code>&lt;g id=&quot;Group&quot; transform={`translate(${194/2 * (1-Math.sqrt(this.props.size))},${255* (1-Math.sqrt(this.props.size))}) scale(${Math.sqrt(this.props.size)})`}&gt;</code></pre><p>Essentially, to <code>transform</code> the SVG, we <code>translate</code> and <code>scale</code> it based off <code>this.props.size</code>.
+}</code></pre><p>In the <code>&lt;g&gt;</code> tag:</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code>&lt;g id=<span style="color:#d14">&quot;Group&quot;</span> transform={<span style="color:#d14">`translate(<span style="color:#333;font-weight:normal">${<span style="color:#008080">194</span><span style="color:#009926">/2 * (1-Math.sqrt(this.props.size))},${255* (1-Math.sqrt(this.props.size))}) scale(${Math.sqrt(this.props.size)})`}&gt;</span></span></span></code></pre><p>Essentially, to <code>transform</code> the SVG, we <code>translate</code> and <code>scale</code> it based off <code>this.props.size</code>.
 Because <code>this.props.size</code> is binded to our <code>balloonSize</code>, changing the first slider will change the size of the balloon.</p><p>The container <code>&lt;div onClick={this.deflate}&gt;</code> over the SVG allows us to click on the balloon, and have the balloon be deflated.</p><p>As a final note, we also want to limit the <code>deflationSize</code> to be no greater than the <code>balloonSize</code>, as otherwise we would get a negative <code>balloonSize</code> if we kept deflating.
-So, as a last addition, we will check that when the <code>deflationSize</code> is bigger than the <code>balloonSize</code>, we update the <code>deflationSize</code> to the <code>balloonSize</code>.</p><p>This is added to our <code>render</code> method, before the return.</p><pre><code>render() {
-  if (this.props.deflationSize &gt; this.props.size) {
-    this.props.updateProps({
-      deflationSize: this.props.size,
+So, as a last addition, we will check that when the <code>deflationSize</code> is bigger than the <code>balloonSize</code>, we update the <code>deflationSize</code> to the <code>balloonSize</code>.</p><p>This is added to our <code>render</code> method, before the return.</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code>render() {
+  <span style="color:#333;font-weight:bold">if</span> (<span style="color:#333;font-weight:bold">this</span>.props.deflationSize &gt; <span style="color:#333;font-weight:bold">this</span>.props.size) {
+    <span style="color:#333;font-weight:bold">this</span>.props.updateProps({
+      <span>deflationSize</span>: <span style="color:#333;font-weight:bold">this</span>.props.size,
     });
   }
 
-  return ...
+  <span style="color:#333;font-weight:bold">return</span> ...
 }</code></pre><p>And that’s it! Check out the full balloon component source code <a href="https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/balloon.js">here</a>.</p><p>To summarize, we introduce variables that are bounded to the props of components. The components will <code>updateProps</code> to update the variables,
 and all components bounded to the variables will be updated.
 Idyll grants very much flexibility and interaction between custom components through its use of bounded variables!
