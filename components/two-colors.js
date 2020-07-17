@@ -3,8 +3,6 @@ import React from 'react';
 class TwoColors extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.changePropsColor = this.changePropsColor.bind(this);
   }
 
   changePropsColor(color) {

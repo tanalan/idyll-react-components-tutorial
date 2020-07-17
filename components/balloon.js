@@ -3,14 +3,15 @@ import React from 'react';
 class Balloon extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.deflate = this.deflate.bind(this);
   }
 
   deflate() {
-    this.props.updateProps({
-      size: this.props.size - this.props.deflationSize,
-    });
+    const updatedSize = (this.props.size - this.props.deflationSize).toFixed(2); // handling floating point subtraction
+    if (updatedSize > 0) {
+      this.props.updateProps({
+        size: updatedSize,
+      });
+    }
   }
 
   render() {
@@ -21,7 +22,7 @@ class Balloon extends React.PureComponent {
     }
 
     return (
-      <div onClick={this.deflate}>
+      <div onClick={() => this.deflate()}>
         <svg width="100%" height="auto" viewBox="0 0 400 500" style={{overflow: 'visible'}} >
           <path d="M101.124805,255 C100.146564,233.732769 103.780451,291.312889 116.550101,326.561293 C129.319752,361.809698 147.686331,348.668032 144.832964,375.648791 C141.979596,402.62955 110.037653,406.908957 106.501018,421.583026 C102.964383,436.257095 123.051823,445.402516 130.601671,491.110588" id="Path-3" stroke="#000000" strokeWidth="4" fill="none"></path>
           <g id="Group" transform={`translate(${194/2 * (1-Math.sqrt(this.props.size))},${255* (1-Math.sqrt(this.props.size))}) scale(${Math.sqrt(this.props.size)})`}>
