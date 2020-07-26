@@ -21,13 +21,13 @@ Many of the examples in the <a href="https://idyll-lang.org/gallery">gallery</a>
 Much of the creativity Idyll allows is through writing one’s own custom components.</p><p>This article serves as an introductory tutorial for writing your own custom components (in React)
 in Idyll, and is an extension to Idyll’s <a href="https://idyll-lang.org/docs/components/custom">current docs</a> with custom components.</p><p>Idyll components are React components under the hood, and it may be good to be familiar with the basics of React.
 Their <a href="https://reactjs.org/docs/getting-started.html">docs</a> are well documented, and serve as a great starting point for learning React.</p><h2 id="core-custom-component-ideas">Core custom component ideas</h2><p>Very important to an Idyll document’s interactivity is its interaction with <a href="https://idyll-lang.org/docs/syntax#variables">variables</a>. This is important for
-writing custom components that have interactivity with users, as well as other components.</p><p>In Idyll, a variable can be <em>binded</em> to a component’s property (<code>prop</code>). If this variable is updated, all
-components with a bind to this variable also updates with the new value.</p><p>In particular, for all custom components, Idyll injects an <code>updateProps</code>
+writing custom components that have interactivity with users, as well as other components.</p><p>In Idyll, a variable can be bound to a component’s property (<code>prop</code>). If this variable is updated, all
+components bound to this variable also update with the new value.</p><p>In particular, for all custom components, Idyll injects an <code>updateProps</code>
 method into the <code>props</code> object of a custom component. We pass our variables
 into a custom component’s <code>props</code>, and the component can <code>updateProps</code>, which
-facilitate interaction, because these same variables’ updated values will affect its other components!
+facilitates interaction between components--when a variable’s value gets updated, it will affect any other components bound to it as well!
 <br/></p><p>This is very powerful.</p><h2 id="writing-custom-components">Writing custom components</h2><p>I demonstrate this by interacting with a small basic custom component, <code>TwoColors</code>.
-Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>To make this, I defined my own custom component, <code>TwoColors</code>, in a file called <code>two-colors.js</code> in my components/ folder, letting Idyll know about it.
+Try clicking on a colored section below, and notice how the color selected text changes.</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center;cursor:pointer">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center;cursor:pointer">Orange</div></div><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><p>To make this, I defined my own custom component, <code>TwoColors</code>, in a file called <code>two-colors.js</code> in my components/ folder, letting Idyll know about it.
 The contents start out with a basic React template:</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code><span style="color:#333;font-weight:bold">import</span> React <span style="color:#333;font-weight:bold">from</span> <span style="color:#d14">&#x27;react&#x27;</span>;
 
 <span><span style="color:#333;font-weight:bold">class</span> <span style="color:#900;font-weight:bold">TwoColors</span> <span style="color:#333;font-weight:bold">extends</span> <span style="color:#900;font-weight:bold">React</span>.<span style="color:#900;font-weight:bold">PureComponent</span> </span>{
@@ -51,7 +51,8 @@ So now, <code>render()</code> looks like:</p><pre style="display:block;overflow-
           backgroundColor: &#x27;green&#x27;,
           width: &#x27;100px&#x27;,
           height: &#x27;100px&#x27;,
-          textAlign: &#x27;center&#x27;
+          textAlign: &#x27;center&#x27;,
+          cursor: &#x27;pointer&#x27;,
         }}
       &gt;
         Green 
@@ -62,7 +63,8 @@ So now, <code>render()</code> looks like:</p><pre style="display:block;overflow-
           backgroundColor: &#x27;orange&#x27;,
           width: &#x27;100px&#x27;,
           height: &#x27;100px&#x27;,
-          textAlign: &#x27;center&#x27;
+          textAlign: &#x27;center&#x27;,
+          cursor: &#x27;pointer&#x27;,
         }}
       &gt;
         Orange
@@ -70,7 +72,7 @@ So now, <code>render()</code> looks like:</p><pre style="display:block;overflow-
     &lt;/div&gt;
   );
 }</code></pre><p>I injected CSS styling into the square <code>div</code>’s <code>style</code> property.</p><p>Now, inside our <code>index.idyll</code> file, we can create a <code>TwoColors</code> component via:</p><pre><code>[TwoColors /]</code></pre><p>
-and we get the output:</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div><p>Great! Now, let’s add some interactivity!
+and we get the output:</p><div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center;cursor:pointer">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center;cursor:pointer">Orange</div></div><p>Great! Now, let’s add some interactivity!
 Inside <code>index.idyll</code>, we define a variable that will track the last clicked color.
 Because we initially haven’t clicked on a color, we’ll initialize the variable’s value to <code>null</code>.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:null /]</code></pre><p>Then, we’ll <em>bind</em> this variable to a property of <code>TwoColors</code>! Let’s call this property <code>selectedColor</code>, just to
 differentiate between our variable and the prop.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:null /]
@@ -84,7 +86,8 @@ which will update our <code>lastClickedColor</code> variable. Let’s add <code>
           backgroundColor: &#x27;green&#x27;,
           width: &#x27;100px&#x27;,
           height: &#x27;100px&#x27;,
-          textAlign: &#x27;center&#x27;
+          textAlign: &#x27;center&#x27;,
+          cursor: &#x27;pointer&#x27;,
         }}
         onClick={() =&gt; this.changePropsColor(&#x27;green&#x27;)} // Added this
       &gt;
@@ -96,7 +99,8 @@ which will update our <code>lastClickedColor</code> variable. Let’s add <code>
           backgroundColor: &#x27;orange&#x27;,
           width: &#x27;100px&#x27;,
           height: &#x27;100px&#x27;,
-          textAlign: &#x27;center&#x27;
+          textAlign: &#x27;center&#x27;,
+          cursor: &#x27;pointer&#x27;,
         }}
         onClick={() =&gt; this.changePropsColor(&#x27;orange&#x27;)} // Added this
       &gt;
@@ -119,7 +123,7 @@ and then the <code>lastClickedColor</code> variable becomes updated to the color
 We’ll use Idyll’s default Display component to display the variable.</p><pre><code>[var name:&quot;lastClickedColor&quot; value:null /]
 [TwoColors selectedColor:lastClickedColor /]
 
-The color clicked is [Display value:`lastClickedColor ? lastClickedColor : &quot;not yet chosen&quot;` /]</code></pre><p>Which results in what we saw before:<div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center">Orange</div></div></p><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><h2 id="a-more-complex-version">A more complex version</h2><p>Let’s work on a more interesting component. Below, we have two range sliders, and a balloon.
+The color clicked is [Display value:`lastClickedColor ? lastClickedColor : &quot;not yet chosen&quot;` /]</code></pre><p>Which results in what we saw before:<div><div class="square-green" style="background-color:green;width:100px;height:100px;text-align:center;cursor:pointer">Green</div><div class="square-orange" style="background-color:orange;width:100px;height:100px;text-align:center;cursor:pointer">Orange</div></div></p><p>The color clicked is <span class="idyll-display">not yet chosen</span></p><h2 id="a-more-complex-version">A more complex version</h2><p>Let’s work on a more interesting component. Below, we have two range sliders, and a balloon.
 The first slider controls the size of the balloon.
 The second slider controls the scale of the balloon’s deflation.</p><p>I’ve constructed this so that when we click on the balloon, it will deflate by the scale from the second slider.</p><p>Try changing the size of the balloon with the first slider, and also try deflating it by clicking it. (Note: values of zero are not allowed by choice).</p><div style="position:relative;z-index:100" idyll="[object Object]"><p><input type="range" value="0.5" min="0.1" max="1" step="0.1"/><span class="idyll-display">0.50</span>
   Controls the size of the balloon</p><p><input type="range" value="0.1" min="0.1" max="0.5" step="0.1"/><span class="idyll-display">0.10</span>
@@ -185,9 +189,9 @@ So, as a last addition, we will check that when the <code>deflationSize</code> i
   }
 
   <span style="color:#333;font-weight:bold">return</span> ...
-}</code></pre><p>And that’s it! Check out the full balloon component source code <a href="https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/balloon.js">here</a>.</p><p>To summarize, we introduce variables that are bounded to the props of components. The components will <code>updateProps</code> to update the variables,
-and all components bounded to the variables will be updated.
-Idyll grants very much flexibility and interaction between custom components through its use of bounded variables!
+}</code></pre><p>And that’s it! Check out the full balloon component source code <a href="https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/balloon.js">here</a>.</p><p>To summarize, we introduced variables that are bounded to the props of components. The components will <code>updateProps</code> to update the variables,
+and all components bounded to the variables will also receive their updated values.
+Idyll grants a lot of flexibility and interaction between custom components through its use of bounded variables!
 
 <br/></p><p>Feel free to check out the source code for this tutorial <a href="https://github.com/tanalan/idyll-react-components-tutorial/blob/master/index.idyll">here</a>.
 And lastly, for any questions, feedback, and/or comments regarding Idyll, do drop by its <a href="https://gitter.im/idyll-lang/Lobby">Gitter</a> page!</p></div></div></div></div>
