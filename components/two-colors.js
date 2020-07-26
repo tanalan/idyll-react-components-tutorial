@@ -20,7 +20,8 @@ class TwoColors extends React.PureComponent {
             backgroundColor: 'green',
             width: '100px',
             height: '100px',
-            textAlign: 'center'
+            textAlign: 'center',
+            cursor: 'pointer',
           }}
           onClick={() => this.changePropsColor('green')}
         >
@@ -32,7 +33,8 @@ class TwoColors extends React.PureComponent {
             backgroundColor: 'orange',
             width: '100px',
             height: '100px',
-            textAlign: 'center'
+            textAlign: 'center',
+            cursor: 'pointer',
           }}
           onClick={() => this.changePropsColor('orange')}
         >

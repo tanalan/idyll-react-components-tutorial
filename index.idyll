@@ -28,13 +28,13 @@ Their [docs](https://reactjs.org/docs/getting-started.html) are well documented,
 Very important to an Idyll document's interactivity is its interaction with [variables](https://idyll-lang.org/docs/syntax#variables). This is important for
 writing custom components that have interactivity with users, as well as other components.
 
-In Idyll, a variable can be *binded* to a component's property (`prop`). If this variable is updated, all
-components with a bind to this variable also updates with the new value.
+In Idyll, a variable can be bound to a component's property (`prop`). If this variable is updated, all
+components bound to this variable also update with the new value.
 
 In particular, for all custom components, Idyll injects an `updateProps`
 method into the `props` object of a custom component. We pass our variables
 into a custom component's `props`, and the component can `updateProps`, which
-facilitate interaction, because these same variables' updated values will affect its other components!
+facilitates interaction between components--when a variable's value gets updated, it will affect any other components bound to it as well!
 [br/]
 
 This is very powerful.
@@ -84,7 +84,8 @@ render() {
           backgroundColor: 'green',
           width: '100px',
           height: '100px',
-          textAlign: 'center'
+          textAlign: 'center',
+          cursor: 'pointer',
         }}
       >
         Green 
@@ -95,7 +96,8 @@ render() {
           backgroundColor: 'orange',
           width: '100px',
           height: '100px',
-          textAlign: 'center'
+          textAlign: 'center',
+          cursor: 'pointer',
         }}
       >
         Orange
@@ -145,7 +147,8 @@ render() {
           backgroundColor: 'green',
           width: '100px',
           height: '100px',
-          textAlign: 'center'
+          textAlign: 'center',
+          cursor: 'pointer',
         }}
         onClick={() => this.changePropsColor('green')} // Added this
       >
@@ -157,7 +160,8 @@ render() {
           backgroundColor: 'orange',
           width: '100px',
           height: '100px',
-          textAlign: 'center'
+          textAlign: 'center',
+          cursor: 'pointer',
         }}
         onClick={() => this.changePropsColor('orange')} // Added this
       >
@@ -353,9 +357,9 @@ render() {
 
 And that's it! Check out the full balloon component source code [here](https://github.com/tanalan/idyll-react-components-tutorial/blob/master/components/balloon.js).
 
-To summarize, we introduce variables that are bounded to the props of components. The components will `updateProps` to update the variables,
-and all components bounded to the variables will be updated.
-Idyll grants very much flexibility and interaction between custom components through its use of bounded variables!
+To summarize, we introduced variables that are bounded to the props of components. The components will `updateProps` to update the variables,
+and all components bounded to the variables will also receive their updated values.
+Idyll grants a lot of flexibility and interaction between custom components through its use of bounded variables!
 
 [br /]
 
